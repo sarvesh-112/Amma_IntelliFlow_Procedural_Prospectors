@@ -1,0 +1,66 @@
+# --------------------
+# Python
+# --------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.env
+.env.*
+
+# --------------------
+# Virtual Environments
+# --------------------
+venv/
+.env/
+.venv/
+ENV/
+
+# --------------------
+# OS Files
+# --------------------
+.DS_Store
+Thumbs.db
+
+# --------------------
+# IDE / Editor
+# --------------------
+.vscode/
+.idea/
+*.swp
+
+# --------------------
+# Logs
+# --------------------
+*.log
+
+# --------------------
+# AI / Model Cache
+# --------------------
+.cache/
+models/
+sentence_transformers/
+faiss.index
+
+# --------------------
+# Uploaded Data / Runtime Data
+# --------------------
+backend/data/
+data/
+uploads/
+
+# --------------------
+# Secrets
+# --------------------
+*.key
+*.pem
+*.crt
+
+# --------------------
+# Node (if frontend build later)
+# --------------------
+node_modules/
+dist/
+build/

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visa Payment Intelligence Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1434CB 0%, #0D1F7A 50%, #001A72 100%);
+      min-height: 100vh;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 184, 28, 0.1);
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .bg-circle:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .bg-circle:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      right: -50px;
+      animation-delay: 5s;
+    }
+
+    .bg-circle:nth-child(3) {
+      width: 400px;
+      height: 400px;
+      bottom: -150px;
+      left: 30%;
+      animation-delay: 10s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(50px, -50px) scale(1.1); }
+      50% { transform: translate(-30px, 30px) scale(0.9); }
+      75% { transform: translate(40px, 20px) scale(1.05); }
+    }
+
+    /* Header */
+    .header {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #FFB81C;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: #FFB81C;
+      color: #1434CB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 24px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: #FFB81C;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #FFB81C;
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Container */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 50px;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 0;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, #fff, #FFB81C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin: 40px 0;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+    }
+
+    .stat-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(255, 184, 28, 0.3);
+    }
+
+    .stat-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #FFB81C, #FFA500);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: bold;
+      color: #FFB81C;
+      margin: 10px 0;
+    }
+
+    .stat-label {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Chart Section */
+    .chart-section {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      margin: 30px 0;
+      animation: fadeIn 1.2s ease;
+    }
+
+    .chart-section h3 {
+      color: #FFB81C;
+      margin-bottom: 25px;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+    }
+
+    .chart-container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 25px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* AI Insight Box */
+    .ai-insight {
+      margin-top: 15px;
+      padding: 12px 16px;
+      background: rgba(255, 184, 28, 0.15);
+      border-left: 4px solid #FFB81C;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #fff;
+      animation: fadeIn 0.5s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .ai-insight.alert {
+      background: rgba(255, 82, 82, 0.15);
+      border-left-color: #ff5252;
+    }
+
+    /* Chat Section */
+    .chat-section {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      margin: 30px 0;
+      animation: fadeIn 1.4s ease;
+    }
+
+    .chat-section h3 {
+      color: #FFB81C;
+      margin-bottom: 20px;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #chat {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      height: 400px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      scroll-behavior: smooth;
+    }
+
+    #chat::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #chat::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    #chat::-webkit-scrollbar-thumb {
+      background: #FFB81C;
+      border-radius: 10px;
+    }
+
+    .message {
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 12px;
+      animation: messageSlide 0.4s ease;
+    }
+
+    @keyframes messageSlide {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .user-message {
+      background: rgba(255, 184, 28, 0.2);
+      border-left: 3px solid #FFB81C;
+    }
+
+    .ai-message {
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 3px solid #1434CB;
+    }
+
+    .action-message {
+      background: rgba(76, 175, 80, 0.2);
+      border-left: 3px solid #4CAF50;
+      font-size: 14px;
+    }
+
+    .system-message {
+      background: rgba(100, 100, 100, 0.2);
+      border-left: 3px solid #888;
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    .input-container {
+      display: flex;
+      gap: 15px;
+    }
+
+    #q {
+      flex: 1;
+      padding: 15px 20px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    #q:focus {
+      outline: none;
+      border-color: #FFB81C;
+    }
+
+    #q::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    button {
+      padding: 15px 40px;
+      background: linear-gradient(135deg, #FFB81C, #FFA500);
+      border: none;
+      border-radius: 25px;
+      color: #1434CB;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 184, 28, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .quick-action-btn {
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .quick-action-btn:hover {
+      background: rgba(255, 184, 28, 0.2);
+      border-color: #FFB81C;
+      transform: translateY(-2px);
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #FFB81C;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .chart-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Animation -->
+  <div class="bg-animation">
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">V</div>
+      <span>Visa Payment Intelligence</span>
+    </div>
+    <nav class="nav-links">
+      <a href="/dashboard">Dashboard</a>
+      <a href="/">Upload Reports</a>
+      <a href="/agents">Agent Workflow</a>
+      <a href="#analytics">Analytics</a>
+      <a href="#insights">AI Insights</a>
+    </nav>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>Real-Time Payment Intelligence</h1>
+      <p>Autonomous monitoring and optimization powered by AI</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">💳</div>
+        <div class="stat-value" id="totalTransactions">0</div>
+        <div class="stat-label">Total Transactions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✓</div>
+        <div class="stat-value" id="successRate">0%</div>
+        <div class="stat-label">Success Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-value" id="avgProcessingTime">0ms</div>
+        <div class="stat-label">Avg Processing Time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🌍</div>
+        <div class="stat-value" id="activeNetworks">0</div>
+        <div class="stat-label">Active Networks</div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="chart-section">
+      <h3>📊 Network Performance Overview</h3>
+      <div class="chart-grid">
+        <div class="chart-container">
+          <canvas id="authChart"></canvas>
+          <div class="ai-insight" id="authInsight">
+            🤖 <span>AI Insight: Analyzing authorization patterns...</span>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="settlementChart"></canvas>
+          <div class="ai-insight" id="settlementInsight">
+            🤖 <span>AI Insight: Monitoring settlement delays...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Section -->
+    <div class="chat-section">
+      <h3>🤖 Ask the Payment Intelligence Agent</h3>
+      
+      <div class="quick-actions">
+        <button class="quick-action-btn" onclick="quickAsk('Show me authorization trends')">Authorization Trends</button>
+        <button class="quick-action-btn" onclick="quickAsk('Settlement delay analysis')">Settlement Analysis</button>
+        <button class="quick-action-btn" onclick="quickAsk('Network performance report')">Performance Report</button>
+        <button class="quick-action-btn" onclick="quickAsk('Optimization recommendations')">Recommendations</button>
+      </div>
+
+      <div id="chat"></div>
+      <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <span style="margin-left: 10px;">Processing...</span>
+      </div>
+      <div class="input-container">
+        <input id="q" placeholder="Ask about payment reports, trends, or optimizations..." 
+               onkeypress="if(event.key==='Enter') send()" />
+        <button onclick="send()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Animate counter
+    function animateCounter(element, target, suffix = '') {
+      if (!element) return;
+      let current = 0;
+      const increment = target / 50;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        element.textContent = Math.floor(current).toLocaleString() + suffix;
+      }, 20);
+    }
+
+    // Load charts
+    async function loadCharts() {
+      try {
+        const res = await fetch("/chart-data");
+        if (!res.ok) throw new Error('Failed to fetch chart data');
+        const data = await res.json();
+        
+        // Update stat cards with animation
+        animateCounter(document.getElementById('totalTransactions'), 65432);
+        animateCounter(document.getElementById('successRate'), parseFloat(data.authorization?.success_rate || 96.8), '%');
+        animateCounter(document.getElementById('avgProcessingTime'), 247, 'ms');
+        animateCounter(document.getElementById('activeNetworks'), 12);
+
+        // Calculate thresholds for anomaly detection
+        const authAvg = data.authorization?.avg_declines || 12;
+        const authThreshold = authAvg * 1.2; // 20% deviation threshold
+        
+        const settlementAvg = data.settlement?.avg_delay_hours || 1.9;
+        const settlementThreshold = settlementAvg * 1.25; // 25% deviation threshold
+
+        // Authorization chart with anomaly marker
+        const authCtx = document.getElementById("authChart").getContext("2d");
+        new Chart(authCtx, {
+          type: "bar",
+          data: {
+            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            datasets: [
+              {
+                label: "Authorization Declines (Avg)",
+                data: Array(7).fill(authAvg),
+                backgroundColor: "rgba(255, 184, 28, 0.7)",
+                borderColor: "#FFB81C",
+                borderWidth: 2,
+                borderRadius: 8
+              },
+              {
+                label: "Anomaly Threshold",
+                data: Array(7).fill(authThreshold),
+                type: "line",
+                borderColor: "#ff5252",
+                borderDash: [6, 6],
+                borderWidth: 2,
+                fill: false,
+                pointRadius: 0,
+                tension: 0
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { 
+                labels: { color: '#fff', font: { size: 14 } }
+              },
+              title: {
+                display: true,
+                text: 'Authorization Declines (Aggregated Trend)',
+                color: '#FFB81C',
+                font: { size: 16, weight: 'bold' }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                ticks: { color: '#fff' }
+              },
+              x: {
+                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                ticks: { color: '#fff' }
+              }
+            }
+          }
+        });
+
+        // Settlement chart with delay spike marker
+        const settleCtx = document.getElementById("settlementChart").getContext("2d");
+        new Chart(settleCtx, {
+          type: "line",
+          data: {
+            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            datasets: [
+              {
+                label: "Settlement Delay (Avg Hours)",
+                data: Array(4).fill(settlementAvg),
+                borderColor: "#FFB81C",
+                backgroundColor: "rgba(255, 184, 28, 0.1)",
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 6,
+                pointBackgroundColor: "#FFB81C"
+              },
+              {
+                label: "Delay Risk Threshold",
+                data: Array(4).fill(settlementThreshold),
+                borderColor: "#ff5252",
+                borderDash: [5, 5],
+                borderWidth: 2,
+                fill: false,
+                pointRadius: 0,
+                tension: 0
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { 
+                labels: { color: '#fff', font: { size: 14 } }
+              },
+              title: {
+                display: true,
+                text: 'Settlement Delay (Aggregated Trend)',
+                color: '#FFB81C',
+                font: { size: 16, weight: 'bold' }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                ticks: { color: '#fff' }
+              },
+              x: {
+                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                ticks: { color: '#fff' }
+              }
+            }
+          }
+        });
+
+        // Update AI insights dynamically
+        const authInsightText = authAvg > authThreshold * 0.9
+          ? "AI detected elevated authorization decline risk. Monitoring closely for threshold breach."
+          : "Authorization activity is operating within expected thresholds. No anomalies detected.";
+        
+        const settlementInsightText = settlementAvg > settlementThreshold * 0.9
+          ? "Settlement delays approaching risk threshold. Recommend immediate review of clearing processes."
+          : "Settlement delays are stable with no high-risk clearing delays detected.";
+
+        document.getElementById('authInsight').innerHTML = `🤖 <span>${authInsightText}</span>`;
+        document.getElementById('settlementInsight').innerHTML = `🤖 <span>${settlementInsightText}</span>`;
+
+        // Add alert class if needed
+        if (authAvg > authThreshold * 0.9) {
+          document.getElementById('authInsight').classList.add('alert');
+        }
+        if (settlementAvg > settlementThreshold * 0.9) {
+          document.getElementById('settlementInsight').classList.add('alert');
+        }
+
+      } catch (error) {
+        console.error('Error loading charts:', error);
+        // Show default data if API fails
+        animateCounter(document.getElementById('totalTransactions'), 0);
+        animateCounter(document.getElementById('successRate'), 0, '%');
+        animateCounter(document.getElementById('avgProcessingTime'), 0, 'ms');
+        animateCounter(document.getElementById('activeNetworks'), 0);
+        
+        document.getElementById('authInsight').innerHTML = '🤖 <span>Unable to load authorization data. Please refresh.</span>';
+        document.getElementById('settlementInsight').innerHTML = '🤖 <span>Unable to load settlement data. Please refresh.</span>';
+      }
+    }
+
+    // Chat logic
+    async function send() {
+      const q = document.getElementById("q").value.trim();
+      if (!q) return;
+
+      addMessage(q, 'user');
+      document.getElementById("q").value = "";
+      
+      document.getElementById("loading").style.display = "block";
+      
+      try {
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ query: q })
+        });
+        
+        if (!res.ok) throw new Error('Failed to get response');
+        
+        const data = await res.json();
+        addMessage(`Intent detected: ${data.intent}`, 'system');
+
+        addMessage(data.analysis, 'ai');
+        
+        if (data.actions && data.actions.length > 0) {
+          data.actions.forEach(a => {
+            addMessage(`Action: ${a.action} (Priority: ${a.priority})`, 'action');
+          });
+        }
+      } catch (error) {
+        console.error('Chat error:', error);
+        addMessage("Sorry, I'm having trouble connecting to the server. Please try again later.", 'ai');
+      } finally {
+        document.getElementById("loading").style.display = "none";
+      }
+    }
+
+    function addMessage(text, type) {
+      const chat = document.getElementById("chat");
+      const message = document.createElement("div");
+      message.className = `message ${type}-message`;
+      
+      const label = type === 'user' ? 'You' : type === 'ai' ? 'AI Agent' : type === 'action' ? 'Action' : 'System';
+      message.innerHTML = `<strong>${label}:</strong> ${text}`;
+      
+      chat.appendChild(message);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function quickAsk(question) {
+      document.getElementById("q").value = question;
+      send();
+    }
+
+    // Load on page load
+    loadCharts();
+
+    // Add welcome message
+    setTimeout(() => {
+      addMessage("Welcome to Visa Payment Intelligence Platform! I'm your AI agent ready to help with payment analytics, network optimization, and real-time insights. How can I assist you today?", 'ai');
+    }, 500);
+  </script>
+</body>
+</html>

@@ -275,6 +275,17 @@
       animation: shimmer 2s infinite;
     }
 
+    /* ========== COUNTERFACTUAL AGENT SPECIAL STYLING ========== */
+    .agent-card.counterfactual::before {
+      background: linear-gradient(180deg, #BB86FC, #8A2BE2);
+    }
+
+    .agent-card.counterfactual {
+      border: 1px solid rgba(138, 43, 226, 0.4);
+      background: rgba(138, 43, 226, 0.12);
+    }
+    /* ========================================================== */
+
     @keyframes shimmer {
       0%, 100% { opacity: 0.5; }
       50% { opacity: 1; }
@@ -284,6 +295,11 @@
       transform: translateX(5px);
       box-shadow: 0 15px 40px rgba(255, 184, 28, 0.3);
       border-color: rgba(255, 184, 28, 0.5);
+    }
+
+    .agent-card.counterfactual:hover {
+      box-shadow: 0 15px 40px rgba(138, 43, 226, 0.4);
+      border-color: rgba(138, 43, 226, 0.6);
     }
 
     .agent-card.new-entry {
@@ -332,6 +348,12 @@
       animation: rotate 3s linear infinite;
     }
 
+    /* ========== COUNTERFACTUAL BADGE ========== */
+    .agent-badge.counterfactual-badge {
+      background: linear-gradient(135deg, #BB86FC, #8A2BE2);
+    }
+    /* ========================================== */
+
     @keyframes rotate {
       0%, 100% { transform: rotate(0deg) scale(1); }
       50% { transform: rotate(5deg) scale(1.1); }
@@ -342,6 +364,12 @@
       font-weight: 600;
       color: #ffb81c;
     }
+
+    /* ========== COUNTERFACTUAL NAME ========== */
+    .agent-name.counterfactual-name {
+      color: #BB86FC;
+    }
+    /* ========================================= */
 
     .status-badge {
       padding: 6px 14px;
@@ -389,6 +417,12 @@
       display: inline-block;
       animation: blink 2s infinite;
     }
+
+    /* ========== COUNTERFACTUAL LABEL ========== */
+    .label.counterfactual-label::before {
+      background: #BB86FC;
+    }
+    /* ========================================== */
 
     @keyframes blink {
       0%, 100% { opacity: 0.3; }
@@ -661,17 +695,27 @@
   let pollingInterval = null;
   let isConnected = false;
 
+  // ========== UPDATED: Added CounterfactualSimulationAgent icon ==========
   function getAgentIcon(agentName) {
     const icons = {
-      'DataLoader': '📥',
-      'Analyzer': '🔍',
-      'AnomalyDetector': '⚠️',
-      'Reporter': '📊',
-      'Optimizer': '⚡',
+      'ReportUnderstandingAgent': '📥',
+      'AnomalyDetectionAgent': '⚠️',
+      'IntentClassificationAgent': '🎯',
+      'RAGRetrievalAgent': '🔍',
+      'RAGEmbeddingAgent': '💾',
+      'RootCauseReasoningAgent': '🧠',
+      'ActionRecommendationAgent': '✅',
+      'CounterfactualSimulationAgent': '🔮',  // <-- NEW
       'default': '🤖'
     };
     return icons[agentName] || icons.default;
   }
+
+  // ========== NEW: Helper function to check if agent is Counterfactual ==========
+  function isCounterfactualAgent(agentName) {
+    return agentName === 'CounterfactualSimulationAgent';
+  }
+  // ===========================================================================
 
   function animateCounter(element, target) {
     if (!element) return;
@@ -704,7 +748,6 @@
       `;
       infoEl.textContent = 'Monitoring agent activity in real-time';
       
-      // Enable clear button if we have logs
       if (previousLogCount > 0) {
         clearBtn.disabled = false;
       }
@@ -727,12 +770,10 @@
       const logs = await res.json();
       const pipeline = document.getElementById("pipeline");
 
-      // Update connection status
       if (!isConnected) {
         updateConnectionStatus(true);
       }
 
-      // Update stats
       animateCounter(document.getElementById('totalExecutions'), logs.length);
       
       const uniqueAgents = new Set(logs.map(l => l.agent)).size;
@@ -754,43 +795,55 @@
         `;
         previousLogCount = 0;
         
-        // Disable clear button when no logs
         const clearBtn = document.getElementById('clearBtn');
         if (clearBtn) clearBtn.disabled = true;
         
         return;
       }
 
-      // Check if new logs arrived
       const hasNewLogs = logs.length > previousLogCount;
       
-      // Enable clear button if we have logs
       const clearBtn = document.getElementById('clearBtn');
       if (clearBtn && logs.length > 0) {
         clearBtn.disabled = false;
       }
       
-      // Only update DOM if there are new logs to prevent flickering
       if (hasNewLogs || previousLogCount === 0) {
         previousLogCount = logs.length;
         pipeline.innerHTML = "";
 
         logs.slice().reverse().forEach((log, index) => {
           const card = document.createElement("div");
+          
+          // ========== NEW: Check if this is Counterfactual Agent ==========
+          const isCounterfactual = isCounterfactualAgent(log.agent);
+          // ===============================================================
+          
           card.className = "agent-card";
           
-          // Add highlight animation to newest entry
+          // ========== NEW: Add counterfactual class for special styling ==========
+          if (isCounterfactual) {
+            card.classList.add("counterfactual");
+          }
+          // =======================================================================
+          
           if (hasNewLogs && index === 0 && previousLogCount > 1) {
             card.classList.add("new-entry");
           }
 
           const agentIcon = getAgentIcon(log.agent);
+          
+          // ========== NEW: Apply special classes for counterfactual styling ==========
+          const badgeClass = isCounterfactual ? 'agent-badge counterfactual-badge' : 'agent-badge';
+          const nameClass = isCounterfactual ? 'agent-name counterfactual-name' : 'agent-name';
+          const labelClass = isCounterfactual ? 'label counterfactual-label' : 'label';
+          // ===========================================================================
 
           card.innerHTML = `
             <div class="agent-header">
               <div class="agent-name-wrapper">
-                <div class="agent-badge">${agentIcon}</div>
-                <div class="agent-name">${log.agent}</div>
+                <div class="${badgeClass}">${agentIcon}</div>
+                <div class="${nameClass}">${log.agent}</div>
               </div>
               <div>
                 <span class="status-badge">✓ Completed</span>
@@ -799,12 +852,12 @@
             <div class="timestamp">🕐 ${log.timestamp}</div>
 
             <div class="section">
-              <div class="label">Input</div>
+              <div class="${labelClass}">Input</div>
               <pre>${formatData(log.input)}</pre>
             </div>
 
             <div class="section">
-              <div class="label">Output</div>
+              <div class="${labelClass}">Output</div>
               <pre>${formatData(log.output)}</pre>
             </div>
           `;
@@ -816,10 +869,8 @@
     } catch (err) {
       console.error('Error loading agent logs:', err);
       
-      // Update connection status
       updateConnectionStatus(false);
       
-      // Only show error if we don't have existing logs
       if (previousLogCount === 0) {
         const pipeline = document.getElementById("pipeline");
         pipeline.innerHTML = `
@@ -843,16 +894,13 @@
     }
   }
 
-  // Clear logs function
   async function clearLogs() {
     const clearBtn = document.getElementById('clearBtn');
     
-    // Confirm before clearing
     if (!confirm('Are you sure you want to clear all agent logs? This action cannot be undone.')) {
       return;
     }
     
-    // Disable button during operation
     clearBtn.disabled = true;
     
     try {
@@ -863,10 +911,8 @@
       
       if (!res.ok) throw new Error('Failed to clear logs');
       
-      // Reset state
       previousLogCount = 0;
       
-      // Update UI immediately
       const pipeline = document.getElementById('pipeline');
       pipeline.innerHTML = `
         <div class="empty">
@@ -876,11 +922,9 @@
         </div>
       `;
       
-      // Reset stats
       document.getElementById('totalExecutions').textContent = '0';
       document.getElementById('activeAgents').textContent = '0';
       
-      // Refresh to confirm
       setTimeout(() => {
         loadAgentLogs();
       }, 1000);
@@ -892,23 +936,17 @@
     }
   }
 
-  // Start real-time monitoring
   function startRealTimeMonitoring() {
-    // Initial load
     loadAgentLogs();
-    
-    // Poll every 2 seconds for new logs
     pollingInterval = setInterval(loadAgentLogs, 2000);
   }
 
-  // Stop monitoring on page unload
   window.addEventListener('beforeunload', () => {
     if (pollingInterval) {
       clearInterval(pollingInterval);
     }
   });
 
-  // Start monitoring when page loads
   startRealTimeMonitoring();
 </script>
 

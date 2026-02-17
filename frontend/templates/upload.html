@@ -24,7 +24,6 @@
       position: relative;
     }
 
-    /* Animated Background */
     .bg-animation {
       position: fixed;
       top: 0;
@@ -74,7 +73,6 @@
       75% { transform: translate(50px, 30px) scale(1.05); }
     }
 
-    /* Header */
     .header {
       position: relative;
       z-index: 10;
@@ -137,7 +135,6 @@
       transform: translateY(-2px);
     }
 
-    /* Main Container */
     .main-container {
       position: relative;
       z-index: 10;
@@ -202,7 +199,6 @@
       font-style: italic;
     }
 
-    /* Form Styles */
     .form-label {
       color: var(--visa-gold);
       font-size: 0.875rem;
@@ -237,7 +233,6 @@
       color: #fff;
     }
 
-    /* File Upload */
     .file-upload-wrapper {
       position: relative;
       border: 3px dashed rgba(255, 184, 28, 0.4);
@@ -292,7 +287,6 @@
       display: none;
     }
 
-    /* Format Tags */
     .format-tag {
       display: inline-block;
       padding: 0.4rem 1rem;
@@ -303,7 +297,6 @@
       color: var(--visa-gold);
     }
 
-    /* Buttons */
     .btn-primary-custom {
       background: linear-gradient(135deg, var(--visa-gold), var(--visa-gold-dark));
       border: none;
@@ -360,7 +353,6 @@
       color: #fff;
     }
 
-    /* Progress Bar */
     .progress {
       height: 8px;
       background: rgba(255, 255, 255, 0.2);
@@ -377,7 +369,6 @@
       100% { background-position: 200px 0; }
     }
 
-    /* Alert Boxes */
     .alert-success-custom {
       background: rgba(76, 175, 80, 0.2);
       border: 2px solid rgba(76, 175, 80, 0.5);
@@ -392,7 +383,6 @@
       color: #FF9800;
     }
 
-    /* Anomaly Items */
     .anomaly-item {
       padding: 0.75rem;
       background: rgba(0, 0, 0, 0.3);
@@ -425,7 +415,6 @@
       color: #FFC107;
     }
 
-    /* Upload Items */
     .upload-item {
       padding: 0.75rem;
       background: rgba(255, 255, 255, 0.05);
@@ -459,7 +448,6 @@
       font-weight: 600;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 768px) {
       .logo-text {
         font-size: 1rem;
@@ -476,14 +464,12 @@
   </style>
 </head>
 <body>
-  <!-- Background Animation -->
   <div class="bg-animation">
     <div class="bg-circle"></div>
     <div class="bg-circle"></div>
     <div class="bg-circle"></div>
   </div>
 
-  <!-- Header -->
   <header class="header">
     <div class="container py-3">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
@@ -491,20 +477,18 @@
           <div class="logo-icon">V</div>
           <h1 class="logo-text">Visa Payment Intelligence Platform</h1>
         </div>
-        <a href="/dashboard" class="btn btn-nav">
+        <a href="/dashboard" class="btn btn-nav" onclick="event.preventDefault(); window.location.href='/dashboard';">
           <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Main Container -->
   <div class="main-container">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10 col-xl-8">
           <div class="upload-card p-4 p-md-5">
-            <!-- Header -->
             <div class="text-center mb-4">
               <div class="upload-icon">📤</div>
               <h2 class="section-title">Upload Payment Report</h2>
@@ -512,9 +496,7 @@
               <p class="process-info">The system will analyze the report, detect anomalies, and generate insights</p>
             </div>
 
-            <!-- Form -->
             <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
-              <!-- Report Type -->
               <div class="mb-4">
                 <label for="reportType" class="form-label">Report Type</label>
                 <select class="form-select" name="type" id="reportType" required>
@@ -524,7 +506,6 @@
                 </select>
               </div>
 
-              <!-- File Upload -->
               <div class="mb-4">
                 <label class="form-label">Upload File</label>
                 <div class="file-upload-wrapper" id="fileUploadWrapper">
@@ -543,7 +524,6 @@
                 </div>
               </div>
 
-              <!-- Progress Bar -->
               <div id="progressContainer" class="mb-4 p-3 bg-dark bg-opacity-50 rounded" style="display: none;">
                 <div class="d-flex justify-content-between mb-2 small">
                   <span>Uploading...</span>
@@ -554,13 +534,11 @@
                 </div>
               </div>
 
-              <!-- Success Message -->
               <div id="successMessage" class="alert alert-success-custom text-center mb-4" style="display: none;">
                 <div class="fs-1 mb-2">✓</div>
                 <div class="fw-bold fs-5">File uploaded successfully!</div>
               </div>
 
-              <!-- Anomalies Section -->
               <div id="anomaliesSection" class="alert alert-warning-custom mb-4" style="display: none;">
                 <div class="d-flex align-items-center gap-2 mb-3 fw-bold">
                   <span>⚠️</span>
@@ -569,7 +547,6 @@
                 <div id="anomaliesList"></div>
               </div>
 
-              <!-- Buttons -->
               <div class="row g-3">
                 <div class="col-12 col-sm-6">
                   <button type="button" class="btn btn-secondary-custom w-100" onclick="resetForm()">
@@ -584,7 +561,6 @@
               </div>
             </form>
 
-            <!-- Recent Uploads -->
             <div id="recentUploadsSection" class="mt-4 p-4 bg-dark bg-opacity-25 rounded" style="display: none;">
               <div class="d-flex align-items-center gap-2 mb-3 fw-bold" style="color: var(--visa-gold);">
                 <span>📊</span>
@@ -704,7 +680,8 @@
         clearInterval(progressInterval);
 
         if (!res.ok) {
-          throw new Error('Upload failed');
+          const errorText = await res.text();
+          throw new Error(errorText || 'Upload failed');
         }
 
         const data = await res.json();
@@ -723,7 +700,7 @@
               anomalyDiv.className = 'anomaly-item d-flex align-items-start gap-2';
               
               const message = anomaly.message || anomaly;
-              const severity = anomaly.severity || 'medium';
+              const severity = (anomaly.severity || 'medium').toLowerCase();
               
               anomalyDiv.innerHTML = `
                 <span class="badge-severity badge-${severity}">${severity}</span>
@@ -744,16 +721,18 @@
           uploads.unshift(uploadEntry);
           updateRecentUploads();
 
+          // 🆕 AUTO-REDIRECT TO DASHBOARD
           setTimeout(() => {
-            resetForm();
-          }, 3000);
+            window.location.href = '/dashboard?uploaded=true';
+          }, 2000);
         }, 500);
 
       } catch (error) {
         console.error('Upload error:', error);
         progressContainer.style.display = 'none';
         submitBtn.disabled = false;
-        alert('Upload failed. Please try again.');
+        validateForm();
+        alert('Upload failed: ' + error.message);
       }
     });
 

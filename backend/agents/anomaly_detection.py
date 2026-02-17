@@ -5,7 +5,7 @@ def detect_anomalies(summary):
 
     if "declined_txns" in key_metrics:
         mean_decline = key_metrics["declined_txns"].get("mean", 0)
-        if mean_decline > 500:
+        if mean_decline > 15:
             anomalies.append({
                 "type": "AUTH_DECLINE_SPIKE",
                 "severity": "high",
@@ -15,7 +15,7 @@ def detect_anomalies(summary):
 
     if "delay_hours" in key_metrics:
         mean_delay = key_metrics["delay_hours"].get("mean", 0)
-        if mean_delay > 5:
+        if mean_delay > 2:
             anomalies.append({
                 "type": "SETTLEMENT_DELAY",
                 "severity": "medium",

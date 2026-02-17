@@ -14,6 +14,10 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #1434CB 0%, #0D1F7A 50%, #001A72 100%);
@@ -22,7 +26,6 @@
       overflow-x: hidden;
     }
 
-    /* Animated Background */
     .bg-animation {
       position: fixed;
       top: 0;
@@ -71,11 +74,11 @@
       75% { transform: translate(40px, 20px) scale(1.05); }
     }
 
-    /* Header */
     .header {
-      position: relative;
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(20, 52, 203, 0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding: 20px 50px;
@@ -83,6 +86,7 @@
       justify-content: space-between;
       align-items: center;
       animation: slideDown 0.8s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
     @keyframes slideDown {
@@ -135,6 +139,7 @@
       font-size: 16px;
       transition: color 0.3s;
       position: relative;
+      cursor: pointer;
     }
 
     .nav-links a:hover {
@@ -156,7 +161,26 @@
       width: 100%;
     }
 
-    /* Container */
+    /* 🆕 REFRESH BUTTON */
+    .btn-refresh {
+      background: linear-gradient(135deg, #FFB81C, #FFA500);
+      border: none;
+      color: #1434CB;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-refresh:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 184, 28, 0.4);
+    }
+
     .container {
       position: relative;
       z-index: 10;
@@ -165,7 +189,6 @@
       padding: 0 50px;
     }
 
-    /* Hero Section */
     .hero {
       text-align: center;
       padding: 60px 0;
@@ -191,7 +214,6 @@
       color: rgba(255, 255, 255, 0.8);
     }
 
-    /* Stats Cards */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -255,7 +277,6 @@
       color: rgba(255, 255, 255, 0.8);
     }
 
-    /* Chart Section */
     .chart-section {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(10px);
@@ -264,6 +285,7 @@
       padding: 40px;
       margin: 30px 0;
       animation: fadeIn 1.2s ease;
+      scroll-margin-top: 100px;
     }
 
     .chart-section h3 {
@@ -273,6 +295,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      justify-content: space-between;
     }
 
     .chart-grid {
@@ -288,7 +311,6 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* AI Insight Box */
     .ai-insight {
       margin-top: 15px;
       padding: 12px 16px;
@@ -306,9 +328,33 @@
     .ai-insight.alert {
       background: rgba(255, 82, 82, 0.15);
       border-left-color: #ff5252;
+      animation: pulseAlert 2s infinite;
     }
 
-    /* Chat Section */
+    @keyframes pulseAlert {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* 🆕 ANOMALY BADGE */
+    .anomaly-indicator {
+      display: inline-block;
+      padding: 6px 12px;
+      background: rgba(244, 67, 54, 0.3);
+      border: 2px solid #F44336;
+      border-radius: 20px;
+      color: #F44336;
+      font-size: 12px;
+      font-weight: bold;
+      animation: blink 1.5s infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
     .chat-section {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(10px);
@@ -317,6 +363,7 @@
       padding: 40px;
       margin: 30px 0;
       animation: fadeIn 1.4s ease;
+      scroll-margin-top: 100px;
     }
 
     .chat-section h3 {
@@ -394,6 +441,30 @@
       font-style: italic;
     }
 
+    #counterfactualContainer {
+      margin-top: 25px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    #counterfactualContainer h3 {
+      color: #ffb81c;
+      margin-bottom: 10px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #counterfactualText {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      border-radius: 14px;
+      border-left: 4px solid #ffb81c;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #fff;
+    }
+
     .input-container {
       display: flex;
       gap: 15px;
@@ -440,7 +511,6 @@
       transform: translateY(0);
     }
 
-    /* Quick Actions */
     .quick-actions {
       display: flex;
       gap: 10px;
@@ -465,7 +535,28 @@
       transform: translateY(-2px);
     }
 
-    /* Loading Animation */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .toggle-container input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #FFB81C;
+    }
+
+    .toggle-container label {
+      cursor: pointer;
+      user-select: none;
+    }
+
     .loading {
       display: none;
       text-align: center;
@@ -486,12 +577,17 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .header {
         padding: 15px 20px;
         flex-direction: column;
         gap: 20px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
       }
 
       .container {
@@ -513,37 +609,35 @@
   </style>
 </head>
 <body>
-  <!-- Background Animation -->
   <div class="bg-animation">
     <div class="bg-circle"></div>
     <div class="bg-circle"></div>
     <div class="bg-circle"></div>
   </div>
 
-  <!-- Header -->
   <header class="header">
     <div class="logo">
       <div class="logo-icon">V</div>
       <span>Visa Payment Intelligence</span>
     </div>
     <nav class="nav-links">
-      <a href="/dashboard">Dashboard</a>
-      <a href="/">Upload Reports</a>
-      <a href="/agents">Agent Workflow</a>
+      <a href="/" onclick="event.preventDefault(); window.location.href='/';">Upload Reports</a>  
+      <a href="#dashboard">Dashboard</a>
+      <a href="/agents" onclick="event.preventDefault(); window.location.href='/agents';">Agent Workflow</a>
       <a href="#analytics">Analytics</a>
       <a href="#insights">AI Insights</a>
     </nav>
   </header>
 
-  <!-- Main Container -->
   <div class="container">
-    <!-- Hero Section -->
-    <div class="hero">
+    <div class="hero" id="dashboard">
       <h1>Real-Time Payment Intelligence</h1>
       <p>Autonomous monitoring and optimization powered by AI</p>
+      <button class="btn-refresh" onclick="refreshDashboard()">
+        🔄 Refresh Dashboard
+      </button>
     </div>
 
-    <!-- Stats Cards -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon">💳</div>
@@ -567,9 +661,11 @@
       </div>
     </div>
 
-    <!-- Charts Section -->
-    <div class="chart-section">
-      <h3>📊 Network Performance Overview</h3>
+    <div class="chart-section" id="analytics">
+      <h3>
+        <span>📊 Network Performance Overview</span>
+        <span id="anomalyBadge" style="display:none;" class="anomaly-indicator">⚠️ ANOMALY DETECTED</span>
+      </h3>
       <div class="chart-grid">
         <div class="chart-container">
           <canvas id="authChart"></canvas>
@@ -586,8 +682,7 @@
       </div>
     </div>
 
-    <!-- Chat Section -->
-    <div class="chat-section">
+    <div class="chat-section" id="insights">
       <h3>🤖 Ask the Payment Intelligence Agent</h3>
       
       <div class="quick-actions">
@@ -598,10 +693,24 @@
       </div>
 
       <div id="chat"></div>
+
+      <div id="counterfactualContainer" style="display:none;">
+        <h3>
+          🔮 Counterfactual Simulation (What-If Analysis)
+        </h3>
+        <div id="counterfactualText"></div>
+      </div>
+
       <div class="loading" id="loading">
         <div class="loading-spinner"></div>
         <span style="margin-left: 10px;">Processing...</span>
       </div>
+
+      <div class="toggle-container">
+        <input type="checkbox" id="counterfactualToggle" checked />
+        <label for="counterfactualToggle">Enable What-If Simulation</label>
+      </div>
+
       <div class="input-container">
         <input id="q" placeholder="Ask about payment reports, trends, or optimizations..." 
                onkeypress="if(event.key==='Enter') send()" />
@@ -611,7 +720,57 @@
   </div>
 
   <script>
-    // Animate counter
+    let authChartInstance = null;
+    let settlementChartInstance = null;
+
+    // 🆕 CHECK FOR REDIRECT PARAMETER (after upload)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('uploaded') === 'true') {
+      setTimeout(() => {
+        const hero = document.querySelector('.hero');
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: rgba(76, 175, 80, 0.9);
+          color: #fff;
+          padding: 15px 25px;
+          border-radius: 10px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          z-index: 10000;
+          animation: slideIn 0.5s ease;
+        `;
+        notification.innerHTML = '✅ Report uploaded successfully! Dashboard updating...';
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.5s ease';
+          setTimeout(() => notification.remove(), 500);
+        }, 3000);
+
+        refreshDashboard();
+      }, 500);
+    }
+
+    // Smooth scroll to sections - FIXED
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        
+        // If it's a hash link (starts with #), scroll smoothly
+        if (targetId && targetId.startsWith('#')) {
+          e.preventDefault();
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+        // For external links like /, /agents - let browser navigate normally
+        // Do NOT prevent default
+      });
+    });
+
     function animateCounter(element, target, suffix = '') {
       if (!element) return;
       let current = 0;
@@ -626,163 +785,26 @@
       }, 20);
     }
 
-    // Load charts
-    async function loadCharts() {
+    // 🆕 REFRESH DASHBOARD WITH LIVE DATA
+    async function refreshDashboard() {
       try {
         const res = await fetch("/chart-data");
         if (!res.ok) throw new Error('Failed to fetch chart data');
         const data = await res.json();
         
-        // Update stat cards with animation
+        console.log('📊 Dashboard data:', data);
+
+        // Update stat cards
         animateCounter(document.getElementById('totalTransactions'), 65432);
-        animateCounter(document.getElementById('successRate'), parseFloat(data.authorization?.success_rate || 96.8), '%');
+        animateCounter(document.getElementById('successRate'), 96.8, '%');
         animateCounter(document.getElementById('avgProcessingTime'), 247, 'ms');
         animateCounter(document.getElementById('activeNetworks'), 12);
 
-        // Calculate thresholds for anomaly detection
-        const authAvg = data.authorization?.avg_declines || 12;
-        const authThreshold = authAvg * 1.2; // 20% deviation threshold
-        
-        const settlementAvg = data.settlement?.avg_delay_hours || 1.9;
-        const settlementThreshold = settlementAvg * 1.25; // 25% deviation threshold
-
-        // Authorization chart with anomaly marker
-        const authCtx = document.getElementById("authChart").getContext("2d");
-        new Chart(authCtx, {
-          type: "bar",
-          data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-            datasets: [
-              {
-                label: "Authorization Declines (Avg)",
-                data: Array(7).fill(authAvg),
-                backgroundColor: "rgba(255, 184, 28, 0.7)",
-                borderColor: "#FFB81C",
-                borderWidth: 2,
-                borderRadius: 8
-              },
-              {
-                label: "Anomaly Threshold",
-                data: Array(7).fill(authThreshold),
-                type: "line",
-                borderColor: "#ff5252",
-                borderDash: [6, 6],
-                borderWidth: 2,
-                fill: false,
-                pointRadius: 0,
-                tension: 0
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-              legend: { 
-                labels: { color: '#fff', font: { size: 14 } }
-              },
-              title: {
-                display: true,
-                text: 'Authorization Declines (Aggregated Trend)',
-                color: '#FFB81C',
-                font: { size: 16, weight: 'bold' }
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                ticks: { color: '#fff' }
-              },
-              x: {
-                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                ticks: { color: '#fff' }
-              }
-            }
-          }
-        });
-
-        // Settlement chart with delay spike marker
-        const settleCtx = document.getElementById("settlementChart").getContext("2d");
-        new Chart(settleCtx, {
-          type: "line",
-          data: {
-            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-            datasets: [
-              {
-                label: "Settlement Delay (Avg Hours)",
-                data: Array(4).fill(settlementAvg),
-                borderColor: "#FFB81C",
-                backgroundColor: "rgba(255, 184, 28, 0.1)",
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4,
-                pointRadius: 6,
-                pointBackgroundColor: "#FFB81C"
-              },
-              {
-                label: "Delay Risk Threshold",
-                data: Array(4).fill(settlementThreshold),
-                borderColor: "#ff5252",
-                borderDash: [5, 5],
-                borderWidth: 2,
-                fill: false,
-                pointRadius: 0,
-                tension: 0
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-              legend: { 
-                labels: { color: '#fff', font: { size: 14 } }
-              },
-              title: {
-                display: true,
-                text: 'Settlement Delay (Aggregated Trend)',
-                color: '#FFB81C',
-                font: { size: 16, weight: 'bold' }
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                ticks: { color: '#fff' }
-              },
-              x: {
-                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                ticks: { color: '#fff' }
-              }
-            }
-          }
-        });
-
-        // Update AI insights dynamically
-        const authInsightText = authAvg > authThreshold * 0.9
-          ? "AI detected elevated authorization decline risk. Monitoring closely for threshold breach."
-          : "Authorization activity is operating within expected thresholds. No anomalies detected.";
-        
-        const settlementInsightText = settlementAvg > settlementThreshold * 0.9
-          ? "Settlement delays approaching risk threshold. Recommend immediate review of clearing processes."
-          : "Settlement delays are stable with no high-risk clearing delays detected.";
-
-        document.getElementById('authInsight').innerHTML = `🤖 <span>${authInsightText}</span>`;
-        document.getElementById('settlementInsight').innerHTML = `🤖 <span>${settlementInsightText}</span>`;
-
-        // Add alert class if needed
-        if (authAvg > authThreshold * 0.9) {
-          document.getElementById('authInsight').classList.add('alert');
-        }
-        if (settlementAvg > settlementThreshold * 0.9) {
-          document.getElementById('settlementInsight').classList.add('alert');
-        }
+        // 🆕 UPDATE CHARTS WITH REAL DATA
+        updateChartsWithRealData(data);
 
       } catch (error) {
         console.error('Error loading charts:', error);
-        // Show default data if API fails
         animateCounter(document.getElementById('totalTransactions'), 0);
         animateCounter(document.getElementById('successRate'), 0, '%');
         animateCounter(document.getElementById('avgProcessingTime'), 0, 'ms');
@@ -790,6 +812,210 @@
         
         document.getElementById('authInsight').innerHTML = '🤖 <span>Unable to load authorization data. Please refresh.</span>';
         document.getElementById('settlementInsight').innerHTML = '🤖 <span>Unable to load settlement data. Please refresh.</span>';
+      }
+    }
+
+    // 🆕 UPDATE CHARTS WITH REAL BACKEND DATA
+    function updateChartsWithRealData(data) {
+      const authData = data.authorization;
+      const settlementData = data.settlement;
+
+      const authAvg = authData.avg_declines || 0;
+      const authThreshold = authData.threshold || 15;
+      const authDataPoints = authData.data_points || [];
+      const authLabels = authData.labels || [];
+      const hasAuthData = authData.has_data;
+
+      const settlementAvg = settlementData.avg_delay_hours || 0;
+      const settlementThreshold = settlementData.threshold || 2.5;
+      const settlementDataPoints = settlementData.data_points || [];
+      const settlementLabels = settlementData.labels || [];
+      const hasSettlementData = settlementData.has_data;
+
+      // Detect anomalies
+      const hasAuthAnomaly = authDataPoints.some(val => val > authThreshold * 0.85);
+      const hasSettlementAnomaly = settlementDataPoints.some(val => val > settlementThreshold * 0.85);
+
+      // 🆕 SHOW ANOMALY BADGE
+      if (hasAuthAnomaly || hasSettlementAnomaly) {
+        document.getElementById('anomalyBadge').style.display = 'inline-block';
+      } else {
+        document.getElementById('anomalyBadge').style.display = 'none';
+      }
+
+      // Authorization Chart - USE REAL DATA
+      const authCtx = document.getElementById("authChart").getContext("2d");
+      
+      if (authChartInstance) {
+        authChartInstance.destroy();
+      }
+
+      // If no data, show placeholder
+      const authChartData = hasAuthData ? authDataPoints : [0];
+      const authChartLabels = hasAuthData ? authLabels : ["No Data"];
+
+      authChartInstance = new Chart(authCtx, {
+        type: "bar",
+        data: {
+          labels: authChartLabels,
+          datasets: [
+            {
+              label: "Authorization Declines",
+              data: authChartData,
+              backgroundColor: authChartData.map(val => 
+                val > authThreshold * 0.85 ? "rgba(255, 82, 82, 0.7)" : "rgba(255, 184, 28, 0.7)"
+              ),
+              borderColor: authChartData.map(val => 
+                val > authThreshold * 0.85 ? "#ff5252" : "#FFB81C"
+              ),
+              borderWidth: 2,
+              borderRadius: 8
+            },
+            {
+              label: "Anomaly Threshold",
+              data: Array(authChartLabels.length).fill(authThreshold),
+              type: "line",
+              borderColor: "#ff5252",
+              borderDash: [6, 6],
+              borderWidth: 2,
+              fill: false,
+              pointRadius: 0,
+              tension: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { 
+              labels: { color: '#fff', font: { size: 14 } }
+            },
+            title: {
+              display: true,
+              text: hasAuthData 
+                ? `Authorization Declines (Avg: ${authAvg.toFixed(2)}, Threshold: ${authThreshold.toFixed(2)})`
+                : 'Authorization Declines (No Data)',
+              color: hasAuthAnomaly ? '#ff5252' : '#FFB81C',
+              font: { size: 16, weight: 'bold' }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(255, 255, 255, 0.1)' },
+              ticks: { color: '#fff' }
+            },
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.1)' },
+              ticks: { color: '#fff' }
+            }
+          }
+        }
+      });
+
+      // Settlement Chart - USE REAL DATA
+      const settleCtx = document.getElementById("settlementChart").getContext("2d");
+      
+      if (settlementChartInstance) {
+        settlementChartInstance.destroy();
+      }
+
+      // If no data, show placeholder
+      const settlementChartData = hasSettlementData ? settlementDataPoints : [0];
+      const settlementChartLabels = hasSettlementData ? settlementLabels : ["No Data"];
+
+      settlementChartInstance = new Chart(settleCtx, {
+        type: "line",
+        data: {
+          labels: settlementChartLabels,
+          datasets: [
+            {
+              label: "Settlement Delay (Hours)",
+              data: settlementChartData,
+              borderColor: "#FFB81C",
+              backgroundColor: "rgba(255, 184, 28, 0.1)",
+              borderWidth: 3,
+              fill: true,
+              tension: 0.4,
+              pointRadius: 6,
+              pointBackgroundColor: settlementChartData.map(val => 
+                val > settlementThreshold * 0.85 ? "#ff5252" : "#FFB81C"
+              ),
+              pointBorderColor: "#fff",
+              pointBorderWidth: 2
+            },
+            {
+              label: "Delay Risk Threshold",
+              data: Array(settlementChartLabels.length).fill(settlementThreshold),
+              borderColor: "#ff5252",
+              borderDash: [5, 5],
+              borderWidth: 2,
+              fill: false,
+              pointRadius: 0,
+              tension: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { 
+              labels: { color: '#fff', font: { size: 14 } }
+            },
+            title: {
+              display: true,
+              text: hasSettlementData
+                ? `Settlement Delay (Avg: ${settlementAvg.toFixed(2)}h, Threshold: ${settlementThreshold.toFixed(2)}h)`
+                : 'Settlement Delay (No Data)',
+              color: hasSettlementAnomaly ? '#ff5252' : '#FFB81C',
+              font: { size: 16, weight: 'bold' }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(255, 255, 255, 0.1)' },
+              ticks: { color: '#fff' }
+            },
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.1)' },
+              ticks: { color: '#fff' }
+            }
+          }
+        }
+      });
+
+      // Update AI insights with real data
+      const authInsightText = hasAuthData
+        ? (hasAuthAnomaly
+          ? `⚠️ ANOMALY DETECTED: Authorization decline rate (${authAvg.toFixed(2)}) exceeds threshold (${authThreshold.toFixed(2)}). ${authDataPoints.filter(v => v > authThreshold * 0.85).length} report(s) flagged for immediate review.`
+          : `✅ Authorization activity is stable at ${authAvg.toFixed(2)} declines across ${authDataPoints.length} report(s). Operating within expected parameters.`)
+        : "📤 Upload authorization reports to see real-time analysis.";
+      
+      const settlementInsightText = hasSettlementData
+        ? (hasSettlementAnomaly
+          ? `⚠️ ANOMALY DETECTED: Settlement delays (${settlementAvg.toFixed(2)}h) approaching risk threshold (${settlementThreshold.toFixed(2)}h). ${settlementDataPoints.filter(v => v > settlementThreshold * 0.85).length} report(s) require monitoring.`
+          : `✅ Settlement processing is optimal at ${settlementAvg.toFixed(2)}h average delay across ${settlementDataPoints.length} report(s). No bottlenecks detected.`)
+        : "📤 Upload settlement reports to see real-time analysis.";
+
+      const authInsightEl = document.getElementById('authInsight');
+      const settlementInsightEl = document.getElementById('settlementInsight');
+
+      authInsightEl.innerHTML = `🤖 <span>${authInsightText}</span>`;
+      settlementInsightEl.innerHTML = `🤖 <span>${settlementInsightText}</span>`;
+
+      if (hasAuthAnomaly) {
+        authInsightEl.classList.add('alert');
+      } else {
+        authInsightEl.classList.remove('alert');
+      }
+
+      if (hasSettlementAnomaly) {
+        settlementInsightEl.classList.add('alert');
+      } else {
+        settlementInsightEl.classList.remove('alert');
       }
     }
 
@@ -807,7 +1033,10 @@
         const res = await fetch("/chat", {
           method: "POST",
           headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({ query: q })
+          body: JSON.stringify({ 
+            query: q,
+            show_counterfactual: document.getElementById("counterfactualToggle").checked
+          })
         });
         
         if (!res.ok) throw new Error('Failed to get response');
@@ -822,6 +1051,27 @@
             addMessage(`Action: ${a.action} (Priority: ${a.priority})`, 'action');
           });
         }
+
+        // Counterfactual rendering
+        const cfContainer = document.getElementById("counterfactualContainer");
+        const cfText = document.getElementById("counterfactualText");
+
+        if (data.counterfactual) {
+          cfContainer.style.display = "block";
+
+          if (typeof data.counterfactual === "string") {
+            cfText.innerText = data.counterfactual;
+          } else {
+            cfText.innerHTML = `
+              <strong>Scenario:</strong> ${data.counterfactual.scenario || "—"}<br/><br/>
+              <strong>Simulated Impact:</strong> ${data.counterfactual.impact || "—"}<br/><br/>
+              <strong>Risk Tradeoff:</strong> ${data.counterfactual.risk || "—"}
+            `;
+          }
+        } else {
+          cfContainer.style.display = "none";
+        }
+
       } catch (error) {
         console.error('Chat error:', error);
         addMessage("Sorry, I'm having trouble connecting to the server. Please try again later.", 'ai');
@@ -848,12 +1098,15 @@
     }
 
     // Load on page load
-    loadCharts();
+    refreshDashboard();
 
     // Add welcome message
     setTimeout(() => {
       addMessage("Welcome to Visa Payment Intelligence Platform! I'm your AI agent ready to help with payment analytics, network optimization, and real-time insights. How can I assist you today?", 'ai');
     }, 500);
+
+    // Auto-refresh every 30 seconds
+    setInterval(refreshDashboard, 30000);
   </script>
 </body>
 </html>
